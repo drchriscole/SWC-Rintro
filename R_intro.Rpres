@@ -1,0 +1,188 @@
+Introduction to R Programming
+========================================================
+author: Chris Cole
+date: January 2017
+autosize: true
+
+RStudio
+========================================================
+
+### Learning Objectives
+
+- Familiarity with the RStudio IDE
+- Set up a working directory with version control
+- Introduce R syntax
+- (Introduce package management)
+
+RStudio
+========================================================
+
+RStudio is:
+- An Integrated Development Enviroment (IDE)
+- Open source & free (can buy commercial support)
+- Better than commercial alternatives
+- Available on all platforms
+- Widely used, good community
+- ***Awesome***!
+
+
+"But I Already Know Excel!"
+====================================
+
+![Dilbert](https://raw.githubusercontent.com/widdowquinn/2017-01-09-dundee/gh-pages/lessons-dundee/R_reproducible_analysis/images/dt160107.gif)
+
+Excel has its uses, but is not consistent with *reproducibility*.
+
+Best Practices
+================
+
+- No single 'best' way - only good principles
+- Treat your data as read only (separate file/folder)
+ - (cf. Excel's interactive modification)
+- Data cleaning
+ - Keep 'cleaned' data in a separate folder
+- All generated output should be considered disposable
+
+Live Presentation - Creating Files/directories
+===============================
+
+![RStudio Screenshot](http://rprogramming.net/wp-content/uploads/2012/10/RStudio-Screenshot.png)
+
+Exercise 1 - Your turn
+===================
+
+- Download gapminder-FiveYearData.csv and inflammation-01.csv to **data** subfolder (link on Etherpad)
+- Create a new subdirectory called **graphs** in your working folder
+- Modify **.gitignore** so that Git does not track the **graphs/** folder
+- Commit these changes to the local repository
+
+(10min)
+
+![Stickies](https://raw.githubusercontent.com/widdowquinn/2017-01-09-dundee/gh-pages/lessons-dundee/R_reproducible_analysis/images/red_green_sticky.png)
+
+Live Presentation - Loading Data
+=====================
+incremental: true
+
+Unlike Excel data are rarely input manually. In fact, it's very tedious to do so. Far more common to read in data from a (text) file.
+
+```{r eval=FALSE, echo=TRUE}
+read.csv(file = "data/inflammation-01.csv", header = FALSE)
+```
+
+- latest versions of RStudio (v1.0 and later) has a wizard which helps read in different file types (e.g. Excel)
+
+Exercise 2 - Data in different formats
+======================
+incremental: true
+
+Using the help documentation what options would you use to open a file with comma as the decimal point character and semi-colon (;) as the field separator?
+
+(5min)
+
+```{r eval=FALSE, echo=TRUE}
+read.csv(file='file.csv', sep=';', dec=',')
+```
+
+Live Presentation - Variables
+=======================
+incremental: true
+
+Data needs to be stored in variables in order to be able to work with it.
+
+```{r eval=TRUE, echo=TRUE}
+weight_kg <- 55
+weight_kg
+```
+
+```{r echo=TRUE}
+# weight in pounds
+2.2 * weight_kg
+```
+
+```{r echo=TRUE}
+weight_lb <- 2.2 * weight_kg
+weight_lb
+```
+
+Live Presentation - Variables 2
+====================
+incremental: true
+
+What happens when we change a variable?
+
+```{r echo=TRUE}
+weight_kg <- 57.5
+weight_kg
+weight_lb
+```
+
+Live Presentation - Reading data
+================
+incremental: true
+
+Do the same as before, except now store the data:
+```{r eval=TRUE, echo=TRUE}
+dat <- read.csv(file = "data/inflammation-01.csv", header = FALSE)
+```
+
+```{r eval=TRUE, echo=TRUE}
+head(dat)
+```
+
+Yay! We have data :)
+
+Live Presentation - Manipulating data
+=========================
+
+Get basic info on data
+
+```{r echo=TRUE, eval=FALSE}
+class(dat)
+dim(dat)
+length(dat)
+nrow(dat)
+```
+
+Explore data:
+
+Using the square bracket notation; '[]'
+
+```{r echo=TRUE, eval=FALSE}
+# First value in dat
+dat[1,1]
+# middle value
+dat[30,20]
+# select range of values
+dat[1:4,1:4]
+# select specific values
+dat[c(3, 8, 37, 56), c(10, 14, 29)]
+# select whole rows/columns
+dat[5,]
+dat[,16]
+```
+
+
+
+First Slide
+========================================================
+
+For more details on authoring R presentations please visit <https://support.rstudio.com/hc/en-us/articles/200486468>.
+
+- Bullet 1
+- Bullet 2
+- Bullet 3
+
+Slide With Code
+========================================================
+
+```{r}
+summary(cars)
+```
+
+Slide With Plot
+========================================================
+
+```{r, echo=FALSE}
+plot(cars)
+```
