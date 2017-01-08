@@ -100,20 +100,20 @@ weight_kg
 2.2 * weight_kg
 ```
 
+====================
+incremental: true
+
+Continued...
+
 ```{r echo=TRUE}
 weight_lb <- 2.2 * weight_kg
 weight_lb
 ```
 
-Live Presentation - Variables 2
-====================
-incremental: true
-
 What happens when we change a variable?
 
 ```{r echo=TRUE}
 weight_kg <- 57.5
-weight_kg
 weight_lb
 ```
 
@@ -153,6 +153,12 @@ Using the square bracket notation; '[]'
 dat[1,1]
 # middle value
 dat[30,20]
+```
+
+=========
+
+
+```{r echo=TRUE, eval=FALSE}
 # select range of values
 dat[1:4,1:4]
 # select specific values
@@ -162,27 +168,498 @@ dat[5,]
 dat[,16]
 ```
 
+Live Presentation - Working with the data
+===================
+
+Can also run calculations, functions on the data and subsets:
+
+```{r eval=FALSE, echo=TRUE}
+# largest value in all the data
+max(dat)
+# max inflammation for patient 2
+max(dat[2, ])
+# minimum inflammation on day 7
+min(dat[, 7])
+# mean inflammation on day 7
+mean(dat[, 7])
+# standard deviation of inflammation on day 7
+sd(dat[, 7])
+```
+
+Live Presentation - Repetitive calculations
+==================
+incremental: true
+
+We really don't want to summarise each patient or each day by hand do we?
+
+Unsurprisingly R has ways to help you and often multiple ways to do the same thing.
+
+How to find mean inflammation for each patient or each day?
+
+```{r echo=TRUE, eval=TRUE}
+# apply() function MARGIN=1 means rows and MARGIN=2 means columns
+avg_inflammation_patient <- apply(X=dat, MARGIN=1, FUN=mean)
+```
+```{r echo=TRUE, eval=TRUE}
+# with most R functions can omit argument names as long as order is correct
+avg_inflammation_day <- apply(dat, 2, mean)
+
+```
+
+===========
+
+...or can use built-in functions.
+
+```{r echo=TRUE, eval=FALSE}
+avg_inflammation_patient <- rowMeans(dat)
+avg_inflammation_day <- colMeans(dat)
+```
 
 
-First Slide
-========================================================
+Exercise 3 - over to you
+====================
 
-For more details on authoring R presentations please visit <https://support.rstudio.com/hc/en-us/articles/200486468>.
+Given this vector:
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
+```{r eval=TRUE, echo=TRUE}
+animal <- c("m", "o", "n", "k", "e", "y")
+```
 
-Slide With Code
-========================================================
+Generate slices which do each of the following:
+- The first three characters
+- The last three characters
+- The first three characters in *reverse order*
+- What does animal[-1] do? And animal[-4]?
+- Can you explain what animal[-1:-4] does?
+
+(5 min)
+
+![Stickies](https://raw.githubusercontent.com/widdowquinn/2017-01-09-dundee/gh-pages/lessons-dundee/R_reproducible_analysis/images/red_green_sticky.png)
+
+
+Exercise 3 - answers
+===============
+incremental: true
+
+```{r eval=FALSE, echo=TRUE}
+# first three characters
+animal[1:3]
+# last three characters
+animal[4:6]
+# first three in reverse
+animal[3:1]
+```
+
+```{r eval=TRUE, echo=TRUE}
+animal[-1:-4]
+```
+
+Exercise 4 - Inflammation data
+================
+
+Using the inflammation data frame dat from above: Let’s pretend there was something wrong with the instrument on the first five days for every second patient (#2, 4, 6, etc.), which resulted in the measurements being twice as large as they should be.
+
+1. Write a vector containing each affected patient (hint: ? seq)
+2. Create a new data frame in which you halve the first five days’ values in only those patients
+3. Print out the corrected data frame to check that your code has fixed the problem
+
+(10min)
+
+![Stickies](https://raw.githubusercontent.com/widdowquinn/2017-01-09-dundee/gh-pages/lessons-dundee/R_reproducible_analysis/images/red_green_sticky.png)
+
+Exercise 4 - answer
+=================
+
+```{r eval=TRUE, echo=TRUE}
+whichPatients <- seq(2,40,2)
+whichDays <- c(1:5)
+dat2 <- dat
+dat2[whichPatients,whichDays] <- dat2[whichPatients,whichDays]/2
+(dat2)
+```
+
+Live Presentation - Basic plotting
+==================
+
+> “The purpose of computing is insight, not numbers.” -  Richard Hamming
+
+To get true insight into data you need to visualise it.
+
+========
+
+Plot mean inflammation by day.
+
+```{r eval=TRUE, echo=TRUE}
+plot(avg_inflammation_day)
+```
+
+========
+
+Plot max inflammation by day.
+
+```{r eval=TRUE}
+max_day_inflammation <- apply(dat, 2, max)
+plot(max_day_inflammation)
+```
+
+========
+
+Plot min inflammation by day.
 
 ```{r}
-summary(cars)
+plot(apply(dat,2,min)) # <- look 3 functions in one!
 ```
 
-Slide With Plot
-========================================================
+Exercise 5
+=======
 
-```{r, echo=FALSE}
-plot(cars)
+Plot SD inflammation data by day.
+
+![Stickies](https://raw.githubusercontent.com/widdowquinn/2017-01-09-dundee/gh-pages/lessons-dundee/R_reproducible_analysis/images/red_green_sticky.png)
+
+
+Summary
+========
+
+- Use variable <- value to assign a value to a variable in order to record it in memory.
+- Objects are created on demand whenever a value is assigned to them.
+- The function dim gives the dimensions of a data frame.
+- Use object[x, y] to select a single element from a data frame.
+- Use from:to to specify a sequence that includes the indices from from to to.
+- All the indexing and slicing that works on data frames also works on vectors.
+
+Summary
+==========
+- Use # to add comments to programs.
+- Use mean, max, min and sd to calculate simple statistics.
+- Use apply to calculate statistics across the rows or columns of a data frame.
+- Use plot to create simple visualizations.
+
+New Topic - Writing functions
+==========
+incremental: true
+
+As we've seen functions allow you to do more complex commands in go. That would be useful to do for your own commands, wouldn't it?
+
+```{r}
+weight_kg
+weight_lb = 2.2 * weight_kg
 ```
+
+```{r}
+kg_to_lb <- function(kg) {
+  lb <- kg * 2.20462
+  return(lb)
+}
+weight_lb <- kg_to_lb(weight_kg)
+weight_lb
+```
+
+========
+incremental: true
+
+And now convert into stones.
+
+```{r}
+lb_to_stones <- function(lb) {
+  stones <- lb/14
+  return(stones)
+}
+lb_to_stones(140)
+
+```
+
+======
+incremental: true
+
+How to convert from Kg to stones directly?
+
+```{r}
+kg_to_stones <- function(kg) {
+  lb <- 2.20462 * kg
+  stones <- lb/14
+  return(stones)
+}
+kg_to_stones(weight_kg)
+```
+
+Is there a better way?
+
+======
+incremental: true 
+
+Possibly...
+
+```{r}
+kg_to_stones <- function(kg) {
+  lb <- kg_to_lb(kg)
+  stones <- lb_to_stones(lb)
+  return(stones)
+}
+kg_to_stones(weight_kg)
+```
+
+Or just chain existing functions.
+
+```{r}
+lb_to_stones(kg_to_lb(weight_kg))
+```
+
+Testing and Documentation
+==========
+incremental: true
+
+Once we start putting things in functions so that we can re-use them, we need to start testing that those functions are working correctly. To see how to do this, let’s write a function to center a dataset around a particular value:
+
+```{r}
+centre <- function(data, desired) {
+  new_data <- (data - mean(data)) + desired
+  return(new_data)
+}
+```
+
+======
+incremental: true
+
+Let's use some fake data to test it works.
+
+```{r}
+z <- c(0,0,0)
+z
+```
+
+```{r}
+centre(z,3)
+```
+
+=====
+incremental: true
+
+Looks good. Let's try on some of our real inflammation data.
+
+```{r}
+centred <- centre(dat[,4], 0)
+head(centred)
+```
+
+Can't really tell of that's right or not. Some more testing...
+
+======
+incremental: true
+
+Test min, max and mean.
+
+```{r eval=FALSE}
+min(dat[,4])
+max(dat[,4])
+mean(dat[,4])
+```
+
+```{r eval=FALSE}
+min(centred)
+max(centred)
+mean(centred)
+```
+
+Again looks believable.
+
+=======
+incremental: true
+
+Final test. If the data are the same the SDs should be the same.
+
+```{r}
+sd(dat[,4])
+sd(centred)
+```
+
+```{r}
+sd(dat[,4]) - sd(centred)
+```
+
+=======
+incremental: true
+
+The way floating point numbers are stored by computers means you can't always depend on them always being identical, use all.equal() as is more reliable.
+```{r}
+all.equal(sd(dat[,4]), sd(centred))
+```
+
+Job done!
+
+Documentation
+=========
+incremental: true
+
+It is extremely important to document your code. Your future self will thank you for it.
+
+State what the code is doing (and why) and give examples e.g. our centre() function
+
+```{r}
+centre <- function(data, desired) {
+  # return a new vector containing the original data centered around the
+  # desired value.
+  # Example: center(c(1, 2, 3), 0) => c(-1, 0, 1)
+  new_data <- (data - mean(data)) + desired
+  return(new_data)
+}
+```
+
+Exercise
+========
+incremental:true
+
+Write a function (with documentation) to convert fahrenheit into Celcius (C = (F - 32) x 5/9 ) and test it 
+(e.g. boiling point of water is 212F. Freezing point is 32F). 
+
+(5min)
+
+![Stickies](https://raw.githubusercontent.com/widdowquinn/2017-01-09-dundee/gh-pages/lessons-dundee/R_reproducible_analysis/images/red_green_sticky.png)
+
+Answer 
+=========
+
+```{r}
+f_to_c <- function(fahr) {
+  # convert fahrenheit into celcius
+  # e.g. 212F = 100C
+  c = (fahr - 32) * (5/9)
+  return(c)
+} 
+```
+
+Exercise 
+=========
+
+Say you have more inflammation datasets in the same format, but in different files.
+
+Write a function which will read in a file and create plots for min, max and mean inflammation over time.
+
+(10min)
+
+![Stickies](https://raw.githubusercontent.com/widdowquinn/2017-01-09-dundee/gh-pages/lessons-dundee/R_reproducible_analysis/images/red_green_sticky.png)
+
+Answer
+============
+
+```{r}
+analyze <- function(filename) {
+  # Plots the average, min, and max inflammation over time.
+  # Input is character string of a csv file.
+  dat <- read.csv(file = filename, header = FALSE)
+  avg_day_inflammation <- apply(dat, 2, mean)
+  plot(avg_day_inflammation)
+  max_day_inflammation <- apply(dat, 2, max)
+  plot(max_day_inflammation)
+  min_day_inflammation <- apply(dat, 2, min)
+  plot(min_day_inflammation)
+}
+```
+
+Defining Defaults in Functions
+=========
+
+As we've seen functions can be provided with named variables or not giving the same result e.g.
+
+```{r eval=FALSE}
+  filename <- "data/inflammation-01.csv"
+  dat <- read.csv(file = filename, header = FALSE)
+  dat <- read.csv(filename, FALSE)
+```
+
+=====
+
+However, order of the variables matters in second version, but not in the first.
+
+```{r eval=FALSE}
+  # this is fine
+  dat <- read.csv(header = FALSE, file = filename)
+  # this is not
+  dat <- read.csv(FALSE, filename)
+```
+
+
+======
+incremental: true
+
+Let's revisit the centre() function.
+
+```{r}
+centre <- function(data, desired = 0) {
+  new_data <- (data - mean(data)) + desired
+  return(new_data)
+}
+```
+
+```{r}
+  new_data <- c(5,5,5,5)
+  centre(new_data)
+  centre(new_data,3)
+```
+
+Matching values to arguments
+=======
+
+To be precise, R has three ways that arguments supplied by you are matched to the formal arguments of the function definition:
+
+1. by complete name,
+2. by partial name (matching on initial n characters of the argument name), and
+3. by position.
+
+Arguments are matched in the manner outlined above in that order: by complete name, then by partial matching of names, and finally by position.
+
+Matching values to arguments
+=======
+incremental: true
+
+An example.
+
+```{r}
+display <- function(a = 1, b = 2, c = 3) {
+  result <- c(a, b, c)
+  names(result) <- c("a", "b", "c")  # This names each element of the vector
+  return(result)
+}
+```
+```{r}
+# no arguments
+display()
+```
+
+=======
+incremental: true
+
+```{r}
+# one argument
+display(55)
+# two arguments
+display(55, 66)
+# three arguments
+display (55, 66, 77)
+```
+
+=======
+incremental: true
+
+```{r}
+# only setting the value of c
+display(c = 77)
+```
+
+```{r eval=FALSE}
+# setting of non-existent argument
+display(d = 99)
+```
+
+=======
+
+Default values are useful for defining the most common or likely values to use. But, ***be warned***, default values can trip you up. They may have been appropriate originally, but not any more.
+
+This is as true for a library function as for a command line tool like **BLAST**.
+
+It is good practice to explicitly define all function variables for the avoidance doubt. Sometimes the defaults ***change*** between versions.
+
+Knitr
+=======
+
+No. Not a new knitting craze... :)
