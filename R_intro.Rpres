@@ -5,7 +5,7 @@ date: January 2017
 autosize: true
 
 RStudio
-========================================================
+==============================
 
 ### Learning Objectives
 
@@ -15,7 +15,7 @@ RStudio
 - (Introduce package management)
 
 RStudio
-========================================================
+==============================
 
 RStudio is:
 - An Integrated Development Enviroment (IDE)
@@ -43,10 +43,20 @@ Best Practices
  - Keep 'cleaned' data in a separate folder
 - All generated output should be considered disposable
 
-Live Presentation - Creating Files/directories
+Live Presentation - Rstudio overview
 ===============================
 
 ![RStudio Screenshot](http://rprogramming.net/wp-content/uploads/2012/10/RStudio-Screenshot.png)
+
+Live Presentaion - Creating a new project
+===========
+
+Projects allow to keep your work within a single workspace.
+* you can have multiple projects and switch between them easily
+* integrates well with git
+
+Let's create a new project, which uses git for version control.
+
 
 Exercise 1 - Your turn
 ===================
@@ -314,6 +324,8 @@ Exercise 5
 =======
 
 Plot SD inflammation data by day.
+
+(5 min)
 
 ![Stickies](https://raw.githubusercontent.com/widdowquinn/2017-01-09-dundee/gh-pages/lessons-dundee/R_reproducible_analysis/images/red_green_sticky.png)
 
@@ -659,7 +671,75 @@ This is as true for a library function as for a command line tool like **BLAST**
 
 It is good practice to explicitly define all function variables for the avoidance doubt. Sometimes the defaults ***change*** between versions.
 
-Knitr
+knitr
 =======
 
-No. Not a new knitting craze... :)
+![knitr graphic]()
+
+**knitr** allows you to organize your notes, code, and results in a single document. 
+
+It’s a great tool for “literate programming” – the idea that your code should be readable by humans as well as computers! 
+
+It also keeps your writing and results together, so if you collect some new data or change how you clean the data, you just have to re-compile the document and you’re up to date!
+
+knitr
+=======
+
+**knitr** documents are written in a plain text-like format called **markdown**. 
+
+**Markdown** allows you to format text using simple, intuitive notation, so that you can focus on the content you’re writing. But you still get a well-formatted document out. 
+
+**Markdown** can be readily translated into *html*, *pdf* or even *docx* documents.
+
+knitr - Installation
+========
+
+For those of you on your own laptops, you need to install it first, in the usual R manner:
+
+```{r eval=FALSE}
+install.packages("knitr")
+```
+
+RMarkdown
+========
+incremental: true
+
+RStudio uses a dialect of **Markdown** called **RMarkdown**, the differences are subtle and are not worth worrying about here.
+
+```
+# A header
+*italics* and **bold**
+* a list
+* with many
+* items
+```
+***
+# A header
+*italics* and **bold**
+* a list
+* with many
+* items
+
+Your first RMarkdown
+=======
+
+In **RStudio** do:
+
+1. File -> New File -> R Markdown...
+2. Add a title...
+3. Save the file to 'first.Rmd'
+4. click the knit button
+5. Job done.
+
+***
+
+![Wizard screenshot]()
+
+
+Live Presentation - Some Real Analysis
+========
+
+Copy some code chunks from the inflammation data and paste into your 'first.Rmd' file.
+
+
+
