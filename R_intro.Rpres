@@ -140,7 +140,6 @@ dat <- read.csv(file = "data/inflammation-01.csv", header = FALSE)
 head(dat)
 ```
 
-Yay! We have data :)
 
 Live Presentation - Manipulating data
 =========================
@@ -337,7 +336,7 @@ Summary
 - Objects are created on demand whenever a value is assigned to them.
 - The function dim gives the dimensions of a data frame.
 - Use object[x, y] to select a single element from a data frame.
-- Use from:to to specify a sequence that includes the indices from from to to.
+- Use from:to to specify a sequence that includes the indices from to.
 - All the indexing and slicing that works on data frames also works on vectors.
 
 Summary
@@ -351,7 +350,7 @@ New Topic - Writing functions
 ==========
 incremental: true
 
-As we've seen functions allow you to do more complex commands in go. That would be useful to do for your own commands, wouldn't it?
+As we've seen functions allow you to do more complex commands in one go. That would be useful to do for your own commands, wouldn't it?
 
 ```{r}
 weight_kg
@@ -665,7 +664,7 @@ display(d = 99)
 
 =======
 
-Default values are useful for defining the most common or likely values to use. But, ***be warned***, default values can trip you up. They may have been appropriate originally, but not any more.
+Default values are useful for defining the most common or likely values to use. But, ***be warned***, default values can trip you up. They may have been appropriate originally, but that may not always be the case.
 
 This is as true for a library function as for a command line tool like **BLAST**.
 
@@ -673,14 +672,17 @@ It is good practice to explicitly define all function variables for the avoidanc
 
 knitr
 =======
-
-![knitr graphic]()
+left: 60%
 
 **knitr** allows you to organize your notes, code, and results in a single document. 
 
 It’s a great tool for “literate programming” – the idea that your code should be readable by humans as well as computers! 
 
 It also keeps your writing and results together, so if you collect some new data or change how you clean the data, you just have to re-compile the document and you’re up to date!
+***
+
+![knitr graphic](https://raw.githubusercontent.com/drchriscole/2017-01-09-dundee/gh-pages/lessons-dundee/knitr_logo.png)
+
 
 knitr
 =======
@@ -733,7 +735,7 @@ In **RStudio** do:
 
 ***
 
-![Wizard screenshot]()
+![Wizard screenshot](https://raw.githubusercontent.com/drchriscole/2017-01-09-dundee/gh-pages/lessons-dundee/RMarkdown_wiz.png)
 
 
 Live Presentation - Some Real Analysis
@@ -741,5 +743,24 @@ Live Presentation - Some Real Analysis
 
 Copy some code chunks from the inflammation data and paste into your 'first.Rmd' file.
 
+Add:
+* block commands
+* inline commands
+* plots
+* end with session Info()
 
+Don't to forget to commit your changes!
+
+Final Summary
+========
+
+**Congratulations!**
+
+You now:  
+* know you way around RStudio
+* can create a version controlled project
+* can do initial R data analysis
+* can write simple R functions
+* make simple plots
+* document your code with comments and via RMarkdown documents
 
